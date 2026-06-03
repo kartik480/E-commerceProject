@@ -1,0 +1,555 @@
+/* ═══════════════════════════════════════
+   KEYFRAMES
+═══════════════════════════════════════ */
+@keyframes ridesIn     { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+@keyframes sheetUp     { from{opacity:0;transform:translateY(60px)} to{opacity:1;transform:translateY(0)} }
+@keyframes pulseSlow   { 0%,100%{transform:scale(1);opacity:.6} 50%{transform:scale(1.7);opacity:0} }
+@keyframes routeDash   { to{stroke-dashoffset:-80} }
+@keyframes vehicleMove { 0%{offset-distance:0%} 100%{offset-distance:100%} }
+@keyframes findingBounce {
+  0%,80%,100%{transform:scale(0);opacity:.4}
+  40%{transform:scale(1);opacity:1}
+}
+@keyframes findingRing { 0%{transform:scale(.6);opacity:.8} 100%{transform:scale(2);opacity:0} }
+@keyframes vehicleFloat{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@keyframes sheetSlide  { from{transform:translateX(-28px);opacity:0} to{transform:translateX(0);opacity:1} }
+
+/* ═══════════════════════════════════════
+   PAGE
+═══════════════════════════════════════ */
+.ridesPage {
+  min-height:100vh;
+  background:#f0fdf4;
+  font-family:'Poppins','Segoe UI',sans-serif;
+  display:flex; flex-direction:column;
+  animation: ridesIn .5s cubic-bezier(.22,1,.36,1) both;
+}
+
+/* ═══════════════════════════════════════
+   HEADER
+═══════════════════════════════════════ */
+.ridesHeader {
+  display:flex; align-items:center; gap:14px;
+  padding:14px 5%;
+  background:#fff;
+  border-bottom:1px solid #e8f5e9;
+  box-shadow:0 2px 14px rgba(22,163,74,.07);
+  position:sticky; top:0; z-index:50;
+}
+.ridesBackBtn {
+  width:38px; height:38px; border-radius:50%;
+  border:1.5px solid #e8f5e9; background:#f0fdf4;
+  color:#16a34a; font-size:14px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:.22s; flex-shrink:0;
+}
+.ridesBackBtn:hover { background:#16a34a; color:#fff; }
+
+.ridesBrand { display:flex; align-items:center; gap:10px; flex:1; }
+.ridesBrand > span { font-size:26px; }
+.ridesBrandName { font-size:16px; font-weight:700; color:#111827; margin:0; }
+.ridesBrandSub  { font-size:11px; color:#16a34a; font-weight:600; margin:0; }
+
+.ridesHeaderRight { display:flex; align-items:center; gap:10px; }
+.ridesHistBtn {
+  display:flex; align-items:center; gap:6px;
+  padding:8px 16px;
+  background:#f0fdf4; border:1.5px solid #86efac;
+  border-radius:10px; color:#15803d;
+  font-size:13px; font-weight:600;
+  cursor:pointer; font-family:inherit; transition:.22s;
+}
+.ridesHistBtn:hover { background:#16a34a; color:#fff; border-color:#16a34a; }
+.ridesAvatarBtn {
+  width:36px; height:36px; border-radius:50%;
+  border:1.5px solid #e5e7eb; background:#fff;
+  color:#6b7280; font-size:14px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* ═══════════════════════════════════════
+   MAIN BODY  (MAP + SHEET)
+═══════════════════════════════════════ */
+.ridesBody {
+  position:relative;
+  flex:1;
+  min-height:calc(100vh - 65px);
+}
+
+/* ═══════════════════════════════════════
+   MAP
+═══════════════════════════════════════ */
+.rideMap {
+  position:absolute; inset:0;
+  background-color:#e8f5e9;
+  background-image:
+    repeating-linear-gradient(0deg,   transparent, transparent 74px, rgba(255,255,255,.75) 74px, rgba(255,255,255,.75) 80px),
+    repeating-linear-gradient(90deg,  transparent, transparent 94px, rgba(255,255,255,.75) 94px, rgba(255,255,255,.75) 100px);
+  overflow:hidden;
+}
+
+.mapGrid {
+  position:absolute; inset:0;
+  background-image:
+    repeating-linear-gradient(0deg,   transparent, transparent 37px, rgba(200,240,210,.45) 37px, rgba(200,240,210,.45) 38px),
+    repeating-linear-gradient(90deg,  transparent, transparent 47px, rgba(200,240,210,.45) 47px, rgba(200,240,210,.45) 48px);
+}
+
+/* Roads */
+.mapRoad { position:absolute; background:rgba(255,255,255,.92); }
+.rh { left:0; right:0; height:10px; }
+.rvr { top:0;  bottom:0; width:10px; }
+.r1 { top:22%; } .r2 { top:48%; } .r3 { top:72%; }
+.r4 { left:20%; } .r5 { left:50%; } .r6 { left:76%; }
+
+/* Green parks */
+.mapGreen { position:absolute; border-radius:12px; background:rgba(22,163,74,.14); }
+.mg1 { width:80px;  height:60px;  top:10%; left:30%; }
+.mg2 { width:60px;  height:50px;  top:55%; left:65%; }
+.mg3 { width:100px; height:70px;  top:70%; left:10%; }
+
+/* Map labels */
+.mapLabel {
+  position:absolute; font-size:10px; font-weight:600;
+  color:rgba(55,65,81,.5); letter-spacing:.3px;
+  pointer-events:none;
+}
+
+/* SVG Route */
+.mapRouteSvg {
+  position:absolute; inset:0; width:100%; height:100%;
+  pointer-events:none;
+}
+.routeStatic   { stroke-dasharray:10 5; }
+.routeAnimated { stroke-dasharray:10 5; animation:routeDash 1.5s linear infinite; }
+
+/* Moving vehicle */
+.mapVehicleIcon {
+  position:absolute; top:32%; left:35%;
+  font-size:28px; z-index:5;
+  animation:vehicleFloat 2s ease-in-out infinite;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));
+}
+
+/* Origin pin */
+.mapPinOrigin {
+  position:absolute; bottom:42%; left:18%;
+  transform:translate(-50%,-50%);
+  width:20px; height:20px;
+  display:flex; align-items:center; justify-content:center;
+}
+.pulseRing {
+  position:absolute; width:40px; height:40px; border-radius:50%;
+  border:2.5px solid rgba(22,163,74,.5);
+  animation:pulseSlow 2s ease-out infinite;
+}
+.pr2 { animation-delay:.7s; }
+.pulseDot {
+  width:14px; height:14px; border-radius:50%;
+  background:#16a34a; border:3px solid #fff;
+  box-shadow:0 2px 10px rgba(22,163,74,.6);
+  position:relative; z-index:2;
+}
+
+/* Destination pin */
+.mapPinDest {
+  position:absolute; top:16%; right:22%;
+  font-size:28px; transform:translateX(50%);
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,.25));
+}
+
+/* "You are here" */
+.mapYouHere {
+  position:absolute; bottom:calc(42% + 32px); left:calc(18% - 10px);
+  display:flex; align-items:center; gap:5px;
+  background:rgba(255,255,255,.92);
+  border:1px solid #e8f5e9; border-radius:20px;
+  padding:4px 10px; font-size:11px; font-weight:600; color:#15803d;
+  white-space:nowrap;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+/* ═══════════════════════════════════════
+   BOTTOM SHEET BASE
+═══════════════════════════════════════ */
+.sheet {
+  position:absolute; bottom:0; left:0; right:0;
+  background:#fff;
+  border-radius:24px 24px 0 0;
+  padding:12px 20px 28px;
+  box-shadow:0 -4px 32px rgba(0,0,0,.12);
+  overflow-y:auto;
+  max-height:56%;
+  animation:sheetUp .4s cubic-bezier(.22,1,.36,1) both;
+}
+.sheetTall    { max-height:72%; }
+.sheetFinding { max-height:44%; }
+.sheetRate    { max-height:60%; }
+.sheetTracking { max-height:74%; }
+
+.sheetHandle {
+  width:40px; height:4px;
+  background:#e5e7eb; border-radius:4px;
+  margin:0 auto 16px;
+}
+.sheetTitle { font-size:16px; font-weight:700; color:#111827; margin:0 0 14px; }
+
+/* ═══════════════════════════════════════
+   HOME SHEET
+═══════════════════════════════════════ */
+
+/* Location inputs */
+.locInputs {
+  background:#f9fafb; border:1.5px solid #e5e7eb;
+  border-radius:14px; padding:4px 12px;
+  margin-bottom:14px;
+}
+.locRow { display:flex; align-items:center; gap:10px; padding:10px 0; }
+.locDot { width:11px; height:11px; border-radius:50%; flex-shrink:0; }
+.locDot.green { background:#16a34a; box-shadow:0 0 0 3px rgba(22,163,74,.2); }
+.locDot.red   { background:#ef4444; box-shadow:0 0 0 3px rgba(239,68,68,.2); }
+.locConnector { height:1px; background:#e5e7eb; margin:0 12px; }
+
+.locField {
+  flex:1; display:flex; align-items:center; gap:8px;
+  font-size:13.5px; color:#374151;
+}
+.locField input {
+  flex:1; border:none; outline:none; background:transparent;
+  font-size:13.5px; color:#111827; font-family:inherit;
+}
+.locField input::placeholder { color:#9ca3af; }
+.locCurrentIcon { color:#16a34a; font-size:13px; flex-shrink:0; }
+.locSearchIcon  { color:#9ca3af; font-size:13px; flex-shrink:0; }
+
+/* Quick places */
+.quickRow { display:flex; gap:10px; margin-bottom:16px; }
+.quickBtn {
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;
+  padding:10px 6px;
+  background:#f0fdf4; border:1.5px solid #e8f5e9;
+  border-radius:12px; cursor:pointer; font-family:inherit;
+  transition:.22s;
+}
+.quickBtn:hover { border-color:#86efac; background:#dcfce7; }
+.quickIcon  { font-size:18px; }
+.quickBtn span:last-child { font-size:11px; font-weight:600; color:#374151; }
+
+/* Recent */
+.recentLabel { font-size:12px; font-weight:700; color:#9ca3af; text-transform:uppercase; letter-spacing:.6px; margin:0 0 8px; }
+.recentRow {
+  width:100%; display:flex; align-items:center; gap:12px;
+  padding:10px 0; border-bottom:1px solid #f3f4f6;
+  cursor:pointer; text-align:left;
+  background:none; border-left:none; border-right:none; border-top:none;
+  font-family:inherit; transition:.15s;
+}
+.recentRow:hover { background:#f9fafb; padding-left:6px; border-radius:8px; }
+.recentIconBox { width:36px; height:36px; border-radius:10px; background:#f0fdf4; display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+.recentInfo { flex:1; min-width:0; }
+.recentTo   { font-size:13.5px; font-weight:600; color:#111827; margin:0; }
+.recentFrom { font-size:11.5px; color:#9ca3af; margin:0; }
+.recentFare { font-size:12.5px; font-weight:700; color:#374151; }
+
+/* ═══════════════════════════════════════
+   SELECT RIDE SHEET
+═══════════════════════════════════════ */
+.routeSummaryRow { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.sheetBackArrow  { background:none; border:none; font-size:18px; color:#16a34a; cursor:pointer; padding:0; font-family:inherit; }
+.routeSummary { flex:1; }
+.routeText   { font-size:13px; color:#374151; margin:0 0 2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.routeMeta   { font-size:12px; color:#9ca3af; margin:0; }
+
+.chooseRideLabel { font-size:13px; font-weight:700; color:#374151; margin:0 0 10px; text-transform:uppercase; letter-spacing:.4px; }
+
+.rideOptionsList { display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
+.rideOpt {
+  width:100%; display:flex; align-items:center; gap:14px;
+  padding:12px 14px; border-radius:14px;
+  border:2px solid #f3f4f6; background:#fff;
+  cursor:pointer; font-family:inherit; text-align:left;
+  position:relative; transition:.22s;
+}
+.rideOpt:hover  { border-color:#86efac; background:#f9fafb; }
+.rideOptActive  { border-color:#16a34a; background:#f0fdf4; box-shadow:0 3px 14px rgba(22,163,74,.15); }
+.rideOptIcon    { font-size:30px; line-height:1; flex-shrink:0; }
+.rideOptMid     { flex:1; }
+.rideOptName    { font-size:14px; font-weight:700; color:#111827; margin:0 0 2px; }
+.rideOptDesc    { font-size:12px; color:#6b7280; margin:0; }
+.rideOptRight   { text-align:right; }
+.rideOptTime    { display:flex; align-items:center; gap:4px; font-size:11.5px; color:#6b7280; margin:0 0 2px; justify-content:flex-end; }
+.rideOptTime svg { color:#16a34a; }
+.rideOptPrice    { font-size:16px; font-weight:800; color:#111827; margin:0; }
+.rideOptOriginal { font-size:11px; color:#9ca3af; text-decoration:line-through; margin:0; }
+.rideOptTick    { position:absolute; top:10px; right:10px; width:20px; height:20px; border-radius:50%; background:#16a34a; color:#fff; font-size:11px; display:flex; align-items:center; justify-content:center; font-weight:700; }
+
+.couponBanner {
+  display:flex; align-items:center; gap:8px;
+  background:#f0fdf4; border:1.5px dashed #86efac;
+  border-radius:10px; padding:10px 14px;
+  font-size:12.5px; color:#15803d;
+  margin-bottom:12px;
+}
+.couponSaved { margin-left:auto; font-weight:800; color:#16a34a; }
+
+.paymentRow   { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.paymentLabel { font-size:12.5px; font-weight:600; color:#374151; white-space:nowrap; }
+.paymentOptions { display:flex; gap:8px; }
+.payOpt {
+  padding:6px 14px; border-radius:8px;
+  border:1.5px solid #e5e7eb; background:#fff;
+  font-size:12px; font-weight:600; color:#374151;
+  cursor:pointer; font-family:inherit; transition:.2s;
+}
+.payOpt:hover  { border-color:#86efac; color:#16a34a; }
+.payOptActive  { border-color:#16a34a; background:#f0fdf4; color:#16a34a; }
+
+.bookBtn {
+  width:100%; padding:15px;
+  background:linear-gradient(90deg,#16a34a,#22c55e);
+  border:none; border-radius:14px; color:#fff;
+  font-size:15px; font-weight:700;
+  cursor:pointer; font-family:inherit;
+  box-shadow:0 4px 18px rgba(22,163,74,.38); transition:.25s;
+}
+.bookBtn:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(22,163,74,.48); }
+
+/* ═══════════════════════════════════════
+   FINDING DRIVER SHEET
+═══════════════════════════════════════ */
+.findingWrap { display:flex; flex-direction:column; align-items:center; gap:12px; padding:10px 0 8px; }
+
+.findingIconWrap { position:relative; width:80px; height:80px; display:flex; align-items:center; justify-content:center; }
+.findingVehicle  { font-size:44px; z-index:2; position:relative; animation:vehicleFloat 1.5s ease-in-out infinite; }
+.findingRing     { position:absolute; inset:0; border-radius:50%; border:2.5px solid rgba(22,163,74,.4); animation:findingRing 1.6s ease-out infinite; }
+.fr2             { animation-delay:.8s; }
+
+.findingTitle  { font-size:17px; font-weight:700; color:#111827; margin:0; }
+.findingDesc   { font-size:13px; color:#6b7280; margin:0; }
+
+.findingBar { width:100%; max-width:240px; height:6px; background:#f3f4f6; border-radius:4px; overflow:hidden; }
+.findingBarFill { height:100%; background:linear-gradient(90deg,#16a34a,#22c55e); border-radius:4px; transition:width .1s linear; }
+
+.findingDots { display:flex; gap:6px; }
+.findingDots span {
+  width:8px; height:8px; border-radius:50%; background:#86efac;
+  animation:findingBounce 1.4s infinite ease-in-out;
+}
+.findingDots span:nth-child(2) { animation-delay:.2s; }
+.findingDots span:nth-child(3) { animation-delay:.4s; }
+
+.findingCancel {
+  display:flex; align-items:center; gap:7px;
+  padding:8px 22px; border-radius:10px;
+  border:1.5px solid #e5e7eb; background:#fff;
+  color:#6b7280; font-size:13px; font-weight:600;
+  cursor:pointer; font-family:inherit; transition:.22s;
+}
+.findingCancel:hover { border-color:#fca5a5; color:#ef4444; }
+
+/* ═══════════════════════════════════════
+   TRACKING SHEET
+═══════════════════════════════════════ */
+.etaPill {
+  display:flex; align-items:center; gap:7px;
+  background:#f0fdf4; border:1.5px solid #86efac;
+  border-radius:10px; padding:9px 14px;
+  font-size:13px; color:#15803d;
+  margin-bottom:12px;
+}
+.etaPill svg { color:#f97316; }
+
+/* Driver card */
+.driverCard {
+  display:flex; align-items:center; gap:14px;
+  background:#fff; border:1.5px solid #e8f5e9;
+  border-radius:16px; padding:14px 16px;
+  box-shadow:0 3px 14px rgba(22,163,74,.1);
+  margin-bottom:12px;
+}
+.driverAvatarWrap { position:relative; flex-shrink:0; }
+.driverAvatar     { font-size:38px; display:block; }
+.driverVehicleBadge {
+  position:absolute; bottom:-4px; right:-4px;
+  font-size:16px; background:#fff; border-radius:50%; padding:1px;
+}
+.driverDetails { flex:1; }
+.driverName    { font-size:15px; font-weight:700; color:#111827; margin:0 0 3px; }
+.driverRatingRow { display:flex; align-items:center; gap:5px; margin-bottom:4px; }
+.driverRating  { font-size:13px; font-weight:700; color:#374151; }
+.driverTrips   { font-size:11.5px; color:#9ca3af; }
+.driverVerified { display:flex; align-items:center; gap:3px; font-size:11px; color:#16a34a; font-weight:600; margin-left:4px; }
+.driverVehicle { font-size:12px; color:#6b7280; margin:0; }
+.callBtn {
+  width:42px; height:42px; border-radius:50%;
+  background:linear-gradient(135deg,#16a34a,#22c55e);
+  border:none; color:#fff; font-size:16px;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; box-shadow:0 3px 12px rgba(22,163,74,.35); transition:.22s;
+}
+.callBtn:hover { transform:scale(1.08); }
+
+/* Track route */
+.trackRouteCard {
+  background:#f9fafb; border:1.5px solid #f3f4f6;
+  border-radius:12px; padding:12px 16px;
+  margin-bottom:12px;
+}
+.trackRouteRow { display:flex; align-items:flex-start; gap:10px; }
+.trackDot { width:10px; height:10px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+.trackDot.green { background:#16a34a; }
+.trackDot.red   { background:#ef4444; }
+.trackRouteLine { width:2px; height:18px; background:#e5e7eb; margin-left:4px; }
+.trackLabel { font-size:11px; color:#9ca3af; margin:0; font-weight:600; }
+.trackValue { font-size:13px; font-weight:600; color:#111827; margin:0; }
+
+/* Trip progress */
+.tripProgressWrap { margin-bottom:12px; }
+.tripProgressBar {
+  height:8px; background:#f3f4f6; border-radius:4px;
+  overflow:visible; position:relative; margin-bottom:6px;
+}
+.tripProgressFill {
+  height:100%; background:linear-gradient(90deg,#16a34a,#22c55e);
+  border-radius:4px; transition:width .8s ease;
+}
+.tripProgressVehicle {
+  position:absolute; top:-12px;
+  transform:translateX(-50%); font-size:20px;
+  transition:left .8s ease;
+  filter:drop-shadow(0 2px 5px rgba(0,0,0,.2));
+}
+.tripProgressLabels {
+  display:flex; justify-content:space-between;
+  font-size:11px; color:#9ca3af; font-weight:500;
+}
+.tripPct { font-weight:700; color:#16a34a; }
+
+/* Tracking bottom */
+.trackingBottom { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.fareCard { display:flex; flex-direction:column; gap:2px; }
+.fareLabel { font-size:11px; color:#9ca3af; font-weight:600; margin:0; }
+.fareAmt   { font-size:22px; font-weight:800; color:#111827; margin:0; }
+.farePay   { font-size:12px; color:#6b7280; margin:0; }
+
+.endTripBtn {
+  display:flex; align-items:center; gap:7px;
+  padding:12px 22px; border-radius:12px;
+  background:linear-gradient(90deg,#16a34a,#22c55e);
+  border:none; color:#fff; font-size:14px; font-weight:700;
+  cursor:pointer; font-family:inherit;
+  box-shadow:0 3px 14px rgba(22,163,74,.35); transition:.22s;
+}
+.endTripBtn:hover { transform:translateY(-2px); }
+
+.cancelTripBtn {
+  display:flex; align-items:center; gap:7px;
+  padding:12px 22px; border-radius:12px;
+  border:1.5px solid #fca5a5; background:#fff;
+  color:#ef4444; font-size:14px; font-weight:600;
+  cursor:pointer; font-family:inherit; transition:.22s;
+}
+.cancelTripBtn:hover { background:#fee2e2; }
+
+/* ═══════════════════════════════════════
+   RATE DRIVER SHEET
+═══════════════════════════════════════ */
+.rateWrap {
+  display:flex; flex-direction:column; align-items:center;
+  gap:10px; padding:8px 0 4px; text-align:center;
+}
+.rateSuccessIcon { font-size:48px; color:#16a34a; animation:ridesIn .4s ease both; }
+.rateWrap h3  { font-size:19px; font-weight:800; color:#111827; margin:0; }
+.rateSubtitle { font-size:14px; color:#6b7280; margin:0; }
+.rateDriverMini {
+  display:flex; align-items:center; gap:10px;
+  background:#f0fdf4; border:1px solid #86efac;
+  border-radius:10px; padding:10px 18px;
+  font-size:14px; font-weight:600; color:#111827;
+}
+.rateFareFinal { margin-left:8px; color:#16a34a; font-weight:700; }
+
+.rateStars { display:flex; gap:10px; }
+.rateStar {
+  border:none; background:none;
+  font-size:36px; cursor:pointer;
+  color:#e5e7eb; transition:.2s;
+  padding:0;
+}
+.rateStar:hover, .rateStarActive { color:#f59e0b; transform:scale(1.15); }
+
+.rateLabel { font-size:16px; font-weight:700; color:#111827; margin:0; }
+
+.rateDoneBtn {
+  width:100%; max-width:300px; padding:14px;
+  background:linear-gradient(90deg,#16a34a,#22c55e);
+  border:none; border-radius:12px; color:#fff;
+  font-size:14.5px; font-weight:700;
+  cursor:pointer; font-family:inherit; transition:.22s;
+  box-shadow:0 4px 16px rgba(22,163,74,.35);
+}
+.rateDoneBtn:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+.rateDoneBtn:not(:disabled):hover { transform:translateY(-2px); }
+
+.rateSkipBtn {
+  background:none; border:none;
+  color:#9ca3af; font-size:13px; cursor:pointer;
+  font-family:inherit; padding:0; transition:color .2s;
+}
+.rateSkipBtn:hover { color:#374151; }
+
+/* ═══════════════════════════════════════
+   HISTORY PAGE
+═══════════════════════════════════════ */
+.histPage { padding:0 5% 60px; animation:ridesIn .4s ease both; }
+.histHead {
+  display:flex; align-items:center; gap:16px;
+  padding:20px 0 16px;
+  border-bottom:1px solid #f3f4f6;
+  margin-bottom:20px;
+}
+.histBackBtn {
+  background:none; border:none; color:#16a34a;
+  font-size:14px; font-weight:600; cursor:pointer;
+  font-family:inherit; padding:0;
+}
+.histHead h2 { font-size:20px; font-weight:800; color:#111827; margin:0; }
+
+.histList { display:flex; flex-direction:column; gap:14px; }
+
+.histCard {
+  background:#fff; border:1.5px solid #f3f4f6;
+  border-radius:18px; padding:18px 20px;
+  box-shadow:0 2px 12px rgba(0,0,0,.05);
+  transition:.24s; animation:sheetSlide .35s ease both;
+}
+.histCard:hover { border-color:#bbf7d0; box-shadow:0 6px 22px rgba(22,163,74,.1); }
+
+.histCardTop {
+  display:flex; align-items:center; gap:10px;
+  margin-bottom:12px;
+}
+.histType  { font-size:13.5px; font-weight:700; color:#111827; flex:1; }
+.histDate  { font-size:12px; color:#9ca3af; }
+.histFare  { font-size:15px; font-weight:800; color:#16a34a; }
+
+.histRoute { display:flex; flex-direction:column; gap:0; margin-bottom:12px; }
+.histRouteRow { display:flex; align-items:center; gap:10px; padding:5px 0; font-size:13.5px; color:#374151; }
+.histDot  { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.histDot.green { background:#16a34a; }
+.histDot.red   { background:#ef4444; }
+.histRouteLine { width:2px; height:16px; background:#e5e7eb; margin-left:4px; }
+
+.histCardBottom {
+  display:flex; align-items:center; gap:10px;
+  padding-top:10px; border-top:1px solid #f3f4f6;
+}
+.histDriver { font-size:12.5px; color:#6b7280; flex:1; }
+.starRow    { display:flex; gap:2px; }
+.histRebook {
+  padding:6px 16px; border-radius:8px;
+  background:#f0fdf4; border:1.5px solid #86efac;
+  color:#16a34a; font-size:12.5px; font-weight:600;
+  cursor:pointer; font-family:inherit; transition:.2s;
+}
+.histRebook:hover { background:#16a34a; color:#fff; border-color:#16a34a; }

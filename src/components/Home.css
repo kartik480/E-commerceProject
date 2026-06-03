@@ -1,0 +1,628 @@
+/* ═══════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+}
+
+body {
+  background: #fff;
+  overflow-x: hidden;
+}
+
+.home {
+  min-height: 100vh;
+  background: #fff;
+  color: #111827;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════ */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 7%;
+  background: #fff;
+  border-bottom: 1px solid #e8f5e9;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 16px rgba(22, 163, 74, 0.07);
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #15803d, #22c55e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+
+.navLinks {
+  display: flex;
+  gap: 32px;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.25s;
+}
+
+.navLinks a:hover,
+.navLinks a.active {
+  color: #16a34a;
+}
+
+.navLinks a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #16a34a;
+  border-radius: 2px;
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  font-size: 17px;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.navActions svg:hover {
+  color: #16a34a;
+  transition: color 0.25s;
+}
+
+.cartWrap {
+  position: relative;
+}
+
+.cartBadge {
+  position: absolute;
+  top: -8px;
+  right: -9px;
+  background: #16a34a;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  padding: 70px 7% 80px;
+  background: linear-gradient(140deg, #f0fdf4 0%, #dcfce7 40%, #fff 72%);
+  min-height: 88vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 560px;
+  height: 560px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.14) 0%, transparent 68%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -80px;
+  left: 10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(134, 239, 172, 0.18) 0%, transparent 68%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* LEFT */
+.heroLeft {
+  flex: 1;
+  max-width: 560px;
+  z-index: 1;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  color: #15803d;
+  padding: 7px 18px;
+  border-radius: 50px;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-bottom: 28px;
+  letter-spacing: 0.2px;
+}
+
+.badgeDot {
+  color: #22c55e;
+  font-size: 14px;
+}
+
+.heroTitle {
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 1.12;
+  color: #111827;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.heroAccent {
+  background: linear-gradient(90deg, #15803d, #22c55e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroSub {
+  font-size: 16px;
+  color: #6b7280;
+  line-height: 1.75;
+  max-width: 460px;
+  margin-bottom: 40px;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 30px;
+  background: linear-gradient(90deg, #16a34a, #22c55e);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.28s;
+  box-shadow: 0 5px 22px rgba(22, 163, 74, 0.38);
+}
+
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(22, 163, 74, 0.48);
+}
+
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 24px;
+  background: transparent;
+  color: #374151;
+  border: none;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.25s;
+}
+
+.btnGhost:hover {
+  color: #16a34a;
+}
+
+.playIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #16a34a;
+  font-size: 12px;
+}
+
+/* RIGHT – phone mock */
+.heroRight {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px;
+  z-index: 1;
+}
+
+.phoneMock {
+  width: 255px;
+  height: 490px;
+  background: linear-gradient(160deg, #0f172a, #1e3a2f);
+  border-radius: 42px;
+  padding: 18px 14px;
+  box-shadow:
+    0 0 0 7px rgba(255, 255, 255, 0.95),
+    0 0 0 9px rgba(22, 163, 74, 0.28),
+    0 28px 80px rgba(0, 0, 0, 0.22);
+  position: relative;
+  z-index: 2;
+}
+
+.phoneInner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.phoneBar {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.phoneLogo {
+  font-size: 13px;
+  font-weight: 700;
+  color: #4ade80;
+}
+
+.phoneSearch {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 7px 10px;
+  color: rgba(255, 255, 255, 0.38);
+  font-size: 10.5px;
+}
+
+.phoneTabs {
+  display: flex;
+  gap: 6px;
+}
+
+.phoneTabs span {
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 6px;
+  padding: 4px 9px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.phoneBanner {
+  background: linear-gradient(130deg, #16a34a, #4ade80);
+  border-radius: 14px;
+  padding: 14px 14px 10px;
+  color: #fff;
+}
+
+.phoneBanner p {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.phoneBanner small {
+  font-size: 10px;
+  opacity: 0.85;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.phoneBanner button {
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.phonePopular {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  padding-top: 4px;
+}
+
+.phoneProducts {
+  display: flex;
+  gap: 6px;
+}
+
+.phoneProd {
+  flex: 1;
+  height: 60px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Floating cards */
+.floatCard {
+  position: absolute;
+  background: #fff;
+  border-radius: 16px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #374151;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.11);
+  border: 1px solid #e8f5e9;
+  z-index: 3;
+  white-space: nowrap;
+}
+
+.floatIcon {
+  color: #16a34a;
+  font-size: 17px;
+}
+
+.floatTop {
+  top: 55px;
+  left: -10px;
+  animation: floatY 3.5s ease-in-out infinite;
+}
+
+.floatRight {
+  top: 28px;
+  right: -10px;
+  animation: floatY 4s ease-in-out infinite 0.8s;
+}
+
+.floatBottom {
+  bottom: 90px;
+  right: -10px;
+  animation: floatY 3.8s ease-in-out infinite 1.4s;
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* ═══════════════════════════════════════
+   CHOOSE YOUR EXPERIENCE
+═══════════════════════════════════════ */
+.experienceSection {
+  padding: 90px 7%;
+  background: #fff;
+}
+
+.sectionHead {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.sectionHead h2 {
+  font-size: 44px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+}
+
+.sectionHead h2 span {
+  background: linear-gradient(90deg, #15803d, #22c55e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.headDivider {
+  display: block;
+  color: #22c55e;
+  font-size: 18px;
+  margin: 8px 0 12px;
+}
+
+.sectionHead p {
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.serviceCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.serviceCard {
+  width: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.28s, box-shadow 0.28s;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e8f5e9;
+  background: #fff;
+}
+
+.serviceCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 44px rgba(22, 163, 74, 0.16);
+}
+
+.serviceCard:active {
+  transform: scale(0.97) translateY(-2px);
+  transition-duration: 0.1s;
+}
+
+.cardVisual {
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-green  .cardVisual { background: linear-gradient(135deg, #bbf7d0, #86efac); }
+.card-teal   .cardVisual { background: linear-gradient(135deg, #a7f3d0, #34d399); }
+.card-emerald .cardVisual { background: linear-gradient(135deg, #d1fae5, #6ee7b7); }
+
+.cardIconWrap {
+  font-size: 84px;
+  color: #15803d;
+  opacity: 0.75;
+  filter: drop-shadow(0 6px 14px rgba(21, 128, 61, 0.3));
+}
+
+.cardBody {
+  padding: 20px 24px 24px;
+}
+
+.cardTag {
+  display: inline-block;
+  background: rgba(22, 163, 74, 0.1);
+  color: #15803d;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(22, 163, 74, 0.2);
+  letter-spacing: 0.6px;
+  margin-bottom: 12px;
+}
+
+.serviceCard h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.serviceCard p {
+  color: #6b7280;
+  font-size: 13.5px;
+  line-height: 1.65;
+  margin-bottom: 18px;
+}
+
+.cardArrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.32);
+}
+
+.cardArrow:hover {
+  transform: scale(1.12);
+  box-shadow: 0 6px 22px rgba(22, 163, 74, 0.45);
+}
+
+/* ═══════════════════════════════════════
+   WHY CHOOSE OCTADECENT
+═══════════════════════════════════════ */
+.whySection {
+  padding: 90px 7%;
+  background: linear-gradient(140deg, #f0fdf4 0%, #dcfce7 50%, #f0fdf4 100%);
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 1180px;
+  margin: 16px auto 0;
+}
+
+.statCard {
+  background: #fff;
+  border-radius: 22px;
+  padding: 36px 28px;
+  width: 100%;
+  text-align: left;
+  box-shadow: 0 4px 18px rgba(22, 163, 74, 0.08);
+  border: 1px solid #e8f5e9;
+  transition: transform 0.28s, box-shadow 0.28s;
+}
+
+.statCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 34px rgba(22, 163, 74, 0.16);
+}
+
+.statIconBox {
+  width: 54px;
+  height: 54px;
+  background: #f0fdf4;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: #16a34a;
+  margin-bottom: 18px;
+}
+
+.statValue {
+  font-size: 32px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 4px;
+  letter-spacing: -0.5px;
+}
+
+.statLabel {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.statCard p {
+  font-size: 12.5px;
+  color: #9ca3af;
+  line-height: 1.65;
+}
